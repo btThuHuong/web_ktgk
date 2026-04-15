@@ -15,3 +15,33 @@ Route::get('/dashboard', function () {
 
 
 require __DIR__.'/auth.php';
+
+
+//Nhi
+use App\Http\Controllers\Controller2;
+
+// Route hiển thị trang chi tiết sản phẩm
+Route::get('/chi-tiet/{id}', [Controller2::class, 'chitiet'])->name('caycanh.chitiet');
+
+// Route xử lý thêm giỏ hàng (Phải dùng POST cho AJAX)
+Route::post('/cart/add', [Controller2::class, 'addToCart'])->name('cart.add');
+
+
+use App\Http\Controllers\Controller03;
+// Đường dẫn hiển thị trang giỏ hàng 
+Route::get('/gio-hang', [Controller03::class, 'index'])->name('cart.index');
+
+// Đường dẫn thêm sản phẩm vào giỏ (Dùng cho AJAX trong file chitiet.blade.php)
+Route::post('/gio-hang/them', [Controller03::class, 'add'])->name('cart.add');
+
+// Đường dẫn xóa sản phẩm
+Route::get('/gio-hang/xoa/{id}', [Controller03::class, 'remove'])->name('cart.remove');
+
+// Đường dẫn xử lý đặt hàng
+
+use App\Http\Controllers\Controller3;
+
+// Nhóm các Route dành cho Controller3 (Quản lý giỏ hàng & Đặt hàng)
+Route::get('/gio-hang', [Controller3::class, 'giohang'])->name('cart.show');
+Route::get('/cart/remove/{id}', [Controller3::class, 'removeCart'])->name('cart.remove');
+Route::post('/cart/checkout', [Controller3::class, 'checkout'])->name('cart.checkout');
