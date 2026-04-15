@@ -8,13 +8,37 @@ use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
-    public function index($id = null)
+    // Thêm Request $request để bắt các nút bấm lọc trên URL
+    public function index(Request $request, $id = null)
     {
-
         $categories = DB::table('danh_muc')->get();
 
         $query = DB::table('san_pham');
 
+        // ========================================================
+        // PHẦN THÊM MỚI: CHỨC NĂNG LỌC
+        // (Chèn ngầm vào biến $query trước khi code gốc thực thi)
+        // ========================================================
+        if ($request->has('care') && $request->care == 'easy') {
+            $query->where('san_pham.do_kho', 'like', '%Dễ%');
+        }
+
+        if ($request->has('light') && $request->light == 'shade') {
+            $query->where('san_pham.yeu_cau_anh_sang', 'like', '%râm%');
+        }
+
+        if ($request->has('sort')) {
+            if ($request->sort == 'asc') {
+                $query->orderBy('san_pham.gia_ban', 'asc');
+            } elseif ($request->sort == 'desc') {
+                $query->orderBy('san_pham.gia_ban', 'desc');
+            }
+        }
+        // ========================================================
+        // KẾT THÚC PHẦN LỌC
+        // ========================================================
+
+        // GIỮ NGUYÊN 100% CODE GỐC (Kể cả các dòng comment)
         if ($id) {
     
             $products = $query->join('sanpham_danhmuc', 'san_pham.id', '=', 'sanpham_danhmuc.id_san_pham')
@@ -31,12 +55,38 @@ class HomeController extends Controller
 
         return view('caycanh.index', compact('categories', 'products'));
     }
-    public function theloai($id)
+
+
+    // Thêm Request $request vào đây tương tự
+    public function theloai(Request $request, $id)
     {
-        
         $categories = DB::table('danh_muc')->get();
 
-        $products = DB::table('san_pham')
+        // Tách biến $query ra để chèn bộ lọc vào giữa
+        $query = DB::table('san_pham');
+
+        // ========================================================
+        // PHẦN THÊM MỚI: CHỨC NĂNG LỌC
+        // ========================================================
+        if ($request->has('care') && $request->care == 'easy') {
+            $query->where('san_pham.do_kho', 'like', '%Dễ%');
+        }
+
+        if ($request->has('light') && $request->light == 'shade') {
+            $query->where('san_pham.yeu_cau_anh_sang', 'like', '%râm%');
+        }
+
+        if ($request->has('sort')) {
+            if ($request->sort == 'asc') {
+                $query->orderBy('san_pham.gia_ban', 'asc');
+            } elseif ($request->sort == 'desc') {
+                $query->orderBy('san_pham.gia_ban', 'desc');
+            }
+        }
+        // ========================================================
+
+        // GIỮ NGUYÊN 100% CODE GỐC
+        $products = $query
             ->join('sanpham_danhmuc', 'san_pham.id', '=', 'sanpham_danhmuc.id_san_pham')
             ->where('sanpham_danhmuc.id_danh_muc', $id)
             ->select('san_pham.*')
@@ -44,5 +94,4 @@ class HomeController extends Controller
 
         return view('caycanh.index', compact('categories', 'products'));
     }
-
 }
