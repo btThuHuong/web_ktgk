@@ -94,4 +94,19 @@ class HomeController extends Controller
 
         return view('caycanh.index', compact('categories', 'products'));
     }
+
+    public function search(Request $request)
+    {
+        $keyword = $request->input('keyword');
+
+        $categories = DB::table('danh_muc')->get();
+
+        $products = DB::table('san_pham')
+            ->where('ten_san_pham', 'LIKE', '%' . $keyword . '%')
+            //->where('status', 1)
+            ->get();
+
+        
+        return view('caycanh.index', compact('categories', 'products', 'keyword'));
+    }
 }
