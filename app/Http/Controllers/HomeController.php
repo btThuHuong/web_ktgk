@@ -110,3 +110,4 @@ class HomeController extends Controller
         return view('caycanh.index', compact('categories', 'products', 'keyword'));
     }
 }
+
