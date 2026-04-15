@@ -8,10 +8,41 @@ use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
-    //
-    public function index(){
-        return view("caycanh.index");
-    }
+    public function index($id = null)
+    {
 
+        $categories = DB::table('danh_muc')->get();
+
+        $query = DB::table('san_pham');
+
+        if ($id) {
+    
+            $products = $query->join('sanpham_danhmuc', 'san_pham.id', '=', 'sanpham_danhmuc.id_san_pham')
+                            ->where('sanpham_danhmuc.id_danh_muc', $id)
+                            //->where('san_pham.status', 1)
+                            ->select('san_pham.*')
+                            ->get();
+        } else {
+            
+            $products = $query//->where('status', 1)
+                            ->limit(20)
+                            ->get();
+        }
+
+        return view('caycanh.index', compact('categories', 'products'));
+    }
+    public function theloai($id)
+    {
+        
+        $categories = DB::table('danh_muc')->get();
+
+        $products = DB::table('san_pham')
+            ->join('sanpham_danhmuc', 'san_pham.id', '=', 'sanpham_danhmuc.id_san_pham')
+            ->where('sanpham_danhmuc.id_danh_muc', $id)
+            ->select('san_pham.*')
+            ->get();
+
+        return view('caycanh.index', compact('categories', 'products'));
+    }
 
 }
