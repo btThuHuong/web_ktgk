@@ -58,15 +58,67 @@
             font-size: 0.95rem;
         }
 
+        /* --- CSS CHO THANH CÔNG CỤ LỌC GIỐNG ẢNH MẪU --- */
+        .filter-bar {
+            text-align: center;
+            margin: 15px 0 5px 0;
+        }
+        
+        .filter-btn {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            color: #333;
+            padding: 6px 14px;
+            border-radius: 4px;
+            text-decoration: none;
+            font-size: 13px;
+            margin: 0 4px;
+            display: inline-block;
+            transition: all 0.2s;
+        }
+
+        .filter-btn:hover {
+            border-color: #2f5d3a;
+            color: #2f5d3a;
+            text-decoration: none;
+        }
+
+        /* Trạng thái khi nút đang được chọn */
+        .filter-btn.active {
+            border-color: #2f5d3a;
+            color: #2f5d3a;
+            font-weight: bold;
+            box-shadow: 0 0 5px rgba(47, 93, 58, 0.2);
+        }
     </style>
+
 
     <div class="container">
         
+        <div class="filter-bar">
+            <span style="font-size: 14px; color: #333; margin-right: 10px;">Tìm kiếm theo</span>
+            
+            <a href="{{ request()->fullUrlWithQuery(['sort' => 'asc']) }}" class="filter-btn {{ request('sort') == 'asc' ? 'active' : '' }}">
+                Giá tăng dần
+            </a>
+            
+            <a href="{{ request()->fullUrlWithQuery(['sort' => 'desc']) }}" class="filter-btn {{ request('sort') == 'desc' ? 'active' : '' }}">
+                Giá giảm dần
+            </a>
+            
+            <a href="{{ request()->fullUrlWithQuery(['care' => request('care') == 'easy' ? null : 'easy']) }}" class="filter-btn {{ request('care') == 'easy' ? 'active' : '' }}">
+                Dễ chăm sóc
+            </a>
+            
+            <a href="{{ request()->fullUrlWithQuery(['light' => request('light') == 'shade' ? null : 'shade']) }}" class="filter-btn {{ request('light') == 'shade' ? 'active' : '' }}">
+                Chịu được bóng râm
+            </a>
+        </div>
         <div id='cay-canh-div'>
             <div class='list-caycanh'>
                 @foreach($products as $row)
                     <div class='caycanh shadow-sm'>
-                        <a href="{{ url('caycanh/chitiet/'.$row->id) }}" style="text-decoration: none;">
+                        <a href="{{ url('chi-tiet/'.$row->id) }}" style="text-decoration: none;">
                             <img src="{{ asset('storage/image/' . $row->hinh_anh) }}" alt="{{ $row->ten_san_pham }}">
                             
                             <div class="cay-canh-info">
@@ -78,5 +130,6 @@
                 @endforeach
             </div>
         </div>
+        
     </div>
 </x-cay-canh-layout>

@@ -16,3 +16,13 @@ Route::get('/dashboard', function () {
 
 
 require __DIR__.'/auth.php';
+
+
+//Nhi
+use App\Http\Controllers\Controller2;
+
+// Route hiển thị trang chi tiết sản phẩm
+Route::get('/chi-tiet/{id}', [Controller2::class, 'chitiet'])->name('caycanh.chitiet');
+
+// Route xử lý thêm giỏ hàng (Phải dùng POST cho AJAX)
+Route::post('/cart/add', [Controller2::class, 'addToCart'])->name('cart.add');
