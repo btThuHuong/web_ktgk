@@ -64,7 +64,7 @@
                 
                 <td>
                     <div class="btn-group">
-                        <a href="{{ url('/caycanh/chitiet/' . $cay->id) }}" class='btn btn-sm btn-primary'>Xem</a>
+                        <a href="{{ route('caycanh.chitiet', ['id' => $cay->id]) }}" class='btn btn-sm btn-primary'>Xem</a>
                         &nbsp;
                         
                         <form method='POST' action="{{ route('admin.plant.delete', ['id' => $cay->id]) }}" onsubmit="return confirm('Bạn có chắc chắn muốn xóa sản phẩm này không?');" style="display: inline-block;">
