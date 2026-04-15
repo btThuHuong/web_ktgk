@@ -1,7 +1,11 @@
 <x-guest-layout>
     <!-- Session Status -->
     <x-auth-session-status class="mb-4" :status="session('status')" />
-
+    <x-slot name="logo">
+        <a href="/">
+            <img src="{{ asset('storage/image/cay-buom-hong-1-800x960.jpg') }}" width="200px">
+        </a>
+    </x-slot>
     <form method="POST" action="{{ route('login') }}">
         @csrf
 
