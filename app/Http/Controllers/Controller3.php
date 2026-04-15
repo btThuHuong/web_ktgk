@@ -33,7 +33,7 @@ class Controller3 extends Controller
     }
 
     // 2. Xóa 1 sản phẩm khỏi giỏ hàng
-    public function removeCart($id)
+    public function remove($id)
     {
         $cart = session()->get('cart', []);
 
